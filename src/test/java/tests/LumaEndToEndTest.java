@@ -56,7 +56,7 @@ public class LumaEndToEndTest extends BaseClassWithClass {
     }
 
     @Test(priority = 30, dependsOnMethods = "addAndCheckoutProductInShoppingCartByClickingItems", dataProvider = "informationForShippingAddress", dataProviderClass = DataProviders.class)
-    public void checkoutPage(String email, String firstName, String lastName, String company, String address1, String address2, String address3, String city, String state, String zipCode, String country, String phoneNumber) {
+    public void checkoutPage(String email, String firstName, String lastName, String company, String address1, String address2, String address3, String city, String state, String zipCode, String country, String phoneNumber) throws InterruptedException {
         ShareData.setCheckoutPageArg(email, firstName, lastName, company, address1, address2, address3, city, state, zipCode, country, phoneNumber);
         LumaCheckoutPage checkoutPage = new LumaCheckoutPage(driver, wait, action);
         softAssert = new SoftAssert();
@@ -64,7 +64,7 @@ public class LumaEndToEndTest extends BaseClassWithClass {
         String productNameTwo = ShareData.getShareProductNameTwo();
         //Checking if both of products are present in order summary that is checkout page
         softAssert.assertEquals(checkoutPage.assertingCheckoutPage(), "Shipping Address");
-        softAssert.assertEquals(checkoutPage.assertingOrderSummary(), "Order Summary");
+        softAssert.assertEquals(checkoutPage.assertingOrderSummary() , "Order Summary");
         softAssert.assertTrue(checkoutPage.productsInOrderSummary(productNameOne).contains(productNameOne));
         softAssert.assertTrue(checkoutPage.productsInOrderSummary(productNameOne).contains(ShareData.getShareSizeNumber1()));
         softAssert.assertTrue(checkoutPage.productsInOrderSummary(productNameOne).contains(ShareData.getShareColor1()));

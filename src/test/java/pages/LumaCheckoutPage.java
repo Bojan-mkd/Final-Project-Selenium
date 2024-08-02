@@ -44,9 +44,12 @@ public class LumaCheckoutPage {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(assertingCheckoutPageLocator)).getText();
     }
 
-    public String assertingOrderSummary() {
+    //Thread.sleep is needed here because productList sometimes is not clickable and intercepted
+    public String assertingOrderSummary() throws InterruptedException {
         action.scrollToElement(driver.findElement(assertingPresentsOfProductsLocator)).perform();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(productsListLocator)).click();
+        WebElement productList = wait.until(ExpectedConditions.elementToBeClickable(productsListLocator));
+        Thread.sleep(5000);
+        productList.click();
         return wait.until(ExpectedConditions.visibilityOfElementLocated(assertingPresentsOfProductsLocator)).getText();
     }
 

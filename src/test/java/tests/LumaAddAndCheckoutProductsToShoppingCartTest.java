@@ -13,7 +13,7 @@ import utils.ShareData;
 public class LumaAddAndCheckoutProductsToShoppingCartTest extends BaseClass {
 
     @Test(dataProvider = "informationForTwoProducts", dataProviderClass = DataProviders.class)
-    public void addAndCheckoutProductInShoppingCartByClickingItems(String sizeNumber1, String sizeNumber2, String color1, String color2, String productNameOne, String productNameTwo) {
+    public void addAndCheckoutProductInShoppingCartByClickingItems(String sizeNumber1, String sizeNumber2, String color1, String color2, String productNameOne, String productNameTwo) throws InterruptedException {
         softAssert = new SoftAssert();
         LumaHomePage homePage = new LumaHomePage(driver, action);
         LumaProductsCatalogPage productsPage = new LumaProductsCatalogPage(driver, wait, action);
