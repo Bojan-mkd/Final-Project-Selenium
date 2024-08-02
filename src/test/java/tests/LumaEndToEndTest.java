@@ -2,7 +2,6 @@ package tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.*;
@@ -58,8 +57,8 @@ public class LumaEndToEndTest extends BaseClassWithClass {
     }
 
     @Test(priority = 30, dependsOnMethods = "addAndCheckoutProductInShoppingCartByClickingItems", dataProvider = "informationForShippingAddress", dataProviderClass = DataProviders.class)
-    public void checkoutPage(String email, String firstName, String lastName, String company, String address1, String address2, String address3, String city, String state, String zipCode, String country, String phoneNumber) throws InterruptedException {
-        ShareData.setCheckoutPageArg(email, firstName, lastName, company, address1, address2, address3, city, state, zipCode, country, phoneNumber);
+    public void checkoutPage(String email, String firstName, String lastName, String company, String address1, String address2, String address3, String city, String state, String zipCode, String country, String phoneNumber, String shippingMethod) throws InterruptedException {
+        ShareData.setCheckoutPageArg(email, firstName, lastName, address1, address2, address3, city, state, zipCode, country, phoneNumber, shippingMethod);
         LumaCheckoutPage checkoutPage = new LumaCheckoutPage(driver, wait, action);
         softAssert = new SoftAssert();
         String productNameOne = ShareData.getShareProductNameOne();
@@ -89,19 +88,46 @@ public class LumaEndToEndTest extends BaseClassWithClass {
         checkoutPage.countryDropDownList(country);
         checkoutPage.phoneNumber(phoneNumber);
         checkoutPage.scrollToNextButton();
-        checkoutPage.shoppingMethods();
+        checkoutPage.shoppingMethodsPrice(shippingMethod);
         checkoutPage.nextButtonClick();
     }
 
-    @Test(priority = 40, dependsOnMethods = "checkoutPage")
-    public void reviewAndPaymentsPage() {
+    @Test(priority = 40, dependsOnMethods = "checkoutPage", dataProvider = "informationForTwoProducts", dataProviderClass = DataProviders.class)
+    public void reviewAndPaymentsPage(String sizeNumber1, String sizeNumber2, String color1, String color2, String productNameOne, String productNameTwo) {
+        softAssert = new SoftAssert();
+        LumaReviewAndPaymentsPage reviewAndPaymentsPage = new LumaReviewAndPaymentsPage(driver, wait, action);
+        LumaCheckoutPage checkoutPage = new LumaCheckoutPage(driver, wait, action);
+        softAssert.assertEquals(reviewAndPaymentsPage.assertReviewAndPaymentsPage(),"");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='billing-address-details']")));
-        System.out.println(driver.findElement(By.xpath("//div[@class='billing-address-details']")).getText());
-        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='billing-address-details']")).getText(), ShareData.getShareFirstName() + " " + ShareData.getShareLastName() + "\n" +
+        System.out.println(reviewAndPaymentsPage.checkOrder());
+        //Asserting/Checking Check-Money order information
+        softAssert.assertEquals(reviewAndPaymentsPage.checkOrder(), ShareData.getShareFirstName() + " " + ShareData.getShareLastName() + "\n" +
                 ShareData.getShareAddress1() + ", " + ShareData.getShareAddress2() + ", " + ShareData.getShareAddress3() + "\n" +
                 ShareData.getShareCity() + ", " + ShareData.getShareState() + " " + ShareData.getShareZipCode() + "\n" +
                 ShareData.getShareCountry() + "\n" +
                 ShareData.getSharePhoneNumber() + "\n" +
                 "Edit");
+        //Asserting/Checking Order Summary
+        softAssert.assertEquals(reviewAndPaymentsPage.shipping(), ShareData.getShareShippingMethodsPrice());
+        softAssert.assertEquals(reviewAndPaymentsPage.cartSubTotalPrice(), ShareData.totalSumOfProductPrice(ShareData.getSharePriceOfProductChosenFromCatalog(), ShareData.getSharePriceOfProductAddedDirectlyFromCatalog()));
+        softAssert.assertTrue(checkoutPage.productsInOrderSummary(productNameOne).contains(productNameOne));
+        softAssert.assertTrue(checkoutPage.productsInOrderSummary(productNameOne).contains(ShareData.getShareSizeNumber1()));
+        softAssert.assertTrue(checkoutPage.productsInOrderSummary(productNameOne).contains(ShareData.getShareColor1()));
+        softAssert.assertTrue(checkoutPage.productsInOrderSummary(productNameOne).contains(ShareData.getSharePriceOfProductAddedDirectlyFromCatalog()));
+        softAssert.assertTrue(checkoutPage.productsInOrderSummary(productNameTwo).contains(productNameTwo));
+        softAssert.assertTrue(checkoutPage.productsInOrderSummary(productNameTwo).contains(ShareData.getShareSizeNumber2()));
+        softAssert.assertTrue(checkoutPage.productsInOrderSummary(productNameTwo).contains(ShareData.getShareColor2()));
+        softAssert.assertTrue(checkoutPage.productsInOrderSummary(productNameTwo).contains(ShareData.getSharePriceOfProductChosenFromCatalog()));
+        reviewAndPaymentsPage.scrollToShipVia();
+        //Asserting/Checking Ship To
+        softAssert.assertEquals(reviewAndPaymentsPage.shipTo(), ShareData.getShareFirstName() + " " + ShareData.getShareLastName() + "\n" +
+                ShareData.getShareAddress1() + ", " + ShareData.getShareAddress2() + ", " + ShareData.getShareAddress3() + "\n" +
+                ShareData.getShareCity() + ", " + ShareData.getShareState() + " " + ShareData.getShareZipCode() + "\n" +
+                ShareData.getShareCountry() + "\n" +
+                ShareData.getSharePhoneNumber() + "\n" +
+                "Edit");
+        //Asserting/Checking Ship Via
+        softAssert.assertEquals(reviewAndPaymentsPage.shipVia(), ShareData.getShareShippingMethodsText());
+        reviewAndPaymentsPage.placeOrderButton();
     }
 }
