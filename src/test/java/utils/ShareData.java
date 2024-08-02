@@ -7,7 +7,6 @@ public class ShareData {
     public static String shareEmail;
     public static String shareFirstName;
     public static String shareLastName;
-    public static String shareCompany;
     public static String shareAddress1;
     public static String shareAddress2;
     public static String shareAddress3;
@@ -16,6 +15,7 @@ public class ShareData {
     public static String shareZipCode;
     public static String shareCountry;
     public static String sharePhoneNumber;
+    public static String shareShippingMethod;
 
     public static String shareProductNameOne;
     public static String shareProductNameTwo;
@@ -27,11 +27,13 @@ public class ShareData {
     public static String sharePriceOfProductAddedDirectlyFromCatalog;
     public static String sharePriceOfProductChosenFromCatalog;
 
-    public static void setCheckoutPageArg(String email, String firstName, String lastName, String company, String address1, String address2, String address3, String city, String state, String zipCode, String country, String phoneNumber) {
+    public static String shareShippingMethodsPrice;
+    public static String shareShippingMethodsText;
+
+    public static void setCheckoutPageArg(String email, String firstName, String lastName, String address1, String address2, String address3, String city, String state, String zipCode, String country, String phoneNumber, String shippingMethod) {
         shareEmail = email;
         shareFirstName = firstName;
         shareLastName = lastName;
-        shareCompany = company;
         shareAddress1 = address1;
         shareAddress2 = address2;
         shareAddress3 = address3;
@@ -40,6 +42,7 @@ public class ShareData {
         shareZipCode = zipCode;
         shareCountry = country;
         sharePhoneNumber = phoneNumber;
+        shareShippingMethod = shippingMethod;
     }
 
     public static String getShareEmail() {
@@ -52,10 +55,6 @@ public class ShareData {
 
     public static String getShareLastName() {
         return shareLastName;
-    }
-
-    public static String getshareCompany() {
-        return shareCompany;
     }
 
     public static String getShareAddress1() {
@@ -89,6 +88,11 @@ public class ShareData {
     public static String getSharePhoneNumber() {
         return sharePhoneNumber;
     }
+
+    public static String getShippingMethod() {
+        return shareShippingMethod;
+    }
+
     //Storing products arguments for sharing with different test case
     public static void setProductPageArg(String sizeNumber1, String sizeNumber2, String color1, String color2, String productNameOne, String productNameTwo){
         shareProductNameOne = productNameOne;
@@ -139,7 +143,7 @@ public class ShareData {
     public static String getSharePriceOfProductChosenFromCatalog(){
         return sharePriceOfProductChosenFromCatalog.replace("$","");
     }
-
+    //Sum of both prices of the products
     public static String totalSumOfProductPrice(String num1, String num2){
         double n1 = Double.parseDouble(num1);
         double n2 = Double.parseDouble(num2);
@@ -149,4 +153,22 @@ public class ShareData {
         DecimalFormat decimalFormat = new DecimalFormat("#.00", decimalFormatSymbols);
         return decimalFormat.format(totalSum);
     }
+    //Storing shipping methods price
+    public static void setShippingMethodsPrice(String price){
+        shareShippingMethodsPrice = price;
+    }
+
+    public static String getShareShippingMethodsPrice(){
+        return shareShippingMethodsPrice;
+    }
+    //Storing shipping methods text
+    public static void setShippingMethodsText(String text){
+        shareShippingMethodsText = text;
+    }
+
+    public static String getShareShippingMethodsText(){
+        return shareShippingMethodsText;
+    }
+
+
 }
