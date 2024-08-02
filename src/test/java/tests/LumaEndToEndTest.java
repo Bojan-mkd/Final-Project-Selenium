@@ -26,18 +26,18 @@ public class LumaEndToEndTest extends BaseClassWithClass {
         LumaProductsCatalogPage productsPage = new LumaProductsCatalogPage(driver, wait, action);
         LumaSingleProductPage singleProduct = new LumaSingleProductPage(driver, action);
         LumaCheckoutPage checkoutPage = new LumaCheckoutPage(driver, wait, action);
-        //Choosing 2 products and adding them to shopping cart
         homePage.womenCategoryButton();
         homePage.choosingPantsCategory();
-        //Adding first product via left side shopping options
+        //Adding first product via left side shopping options and adding it directly to shopping cart
         productsPage.sizeCategoryList(sizeNumber1);
         productsPage.colorCategoryList(color1);
         productsPage.addingProductToCartDirectlyFromCatalogList(productNameOne);
         softAssert.assertEquals(productsPage.confirmationMessageForSuccessfulAddingProductToCart(), "You added " + productNameOne + " to your shopping cart.");
         productsPage.clearAllShoppingOptions();
-        //Adding second product via clicking on the product directly
+        //Adding second product via clicking on the product directly and open single product page to choose and adding to shopping cart
         productsPage.choosingProductDirectlyFromCatalogList(productNameTwo);
         singleProduct.scrollToAddToWish();
+        ShareData.setPriceOfProductChosenFromCatalog(singleProduct.priceOfProduct());
         singleProduct.choosingSizeOrColor(sizeNumber2);
         singleProduct.choosingSizeOrColor(color2);
         singleProduct.addToCartButton();
@@ -52,6 +52,8 @@ public class LumaEndToEndTest extends BaseClassWithClass {
         softAssert.assertTrue(productsPage.productsInShoppingCart(productNameOne).contains(sizeNumber1));
         softAssert.assertTrue(productsPage.productsInShoppingCart(productNameOne).contains(color1));
         softAssert.assertTrue(productsPage.productsInShoppingCart(productNameOne).contains(ShareData.getSharePriceOfProductAddedDirectlyFromCatalog()));
+        String subTotalSum = productsPage.subtotalSumForBothProductsInShoppingCart();
+        softAssert.assertEquals(subTotalSum.replace("$",""), ShareData.totalSumOfProductPrice(ShareData.getSharePriceOfProductChosenFromCatalog(), ShareData.getSharePriceOfProductAddedDirectlyFromCatalog()));
         productsPage.shoppingCartCheckout();
     }
 
