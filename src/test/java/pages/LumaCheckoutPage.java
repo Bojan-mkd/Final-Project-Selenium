@@ -7,6 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.ShareData;
 
 import java.util.List;
 
@@ -28,11 +29,13 @@ public class LumaCheckoutPage {
     private By zipOrPostalCodeLocator = By.xpath("//input[@name='postcode']");
     private By countryLocator = By.xpath("//select[@name='country_id']");
     private By phoneNumberLocator = By.xpath("//input[@name='telephone']");
-    private By shippingMethodsLocator = By.xpath("//input[@class='radio']");
     private By shippingMethodsTitleLocator = By.xpath("//div[contains(@data-bind,'Shipping Methods')]");
     private By nextButtonLocator = By.xpath("//button[@class='button action continue primary']");
     private By firstNameLocator = By.xpath("//input[@name='firstname']");
     private By lastNameLocator = By.xpath("//input[@name='lastname']");
+    private By shippingMethodsFirstTextLocator = By.xpath("//td[@id='label_method_bestway_tablerate']");
+    private By shippingMethodsSecondTextLocator = By.xpath("//td[@id='label_carrier_bestway_tablerate']");
+
 
     public LumaCheckoutPage(WebDriver driver, WebDriverWait wait, Actions action) {
         this.driver = driver;
@@ -107,8 +110,22 @@ public class LumaCheckoutPage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(phoneNumberLocator)).sendKeys(phoneNumber);
     }
 
-    public void shoppingMethods() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(shippingMethodsLocator)).click();
+    public String shoppingMethodsPrice(String shippingMethod) {
+        int i = Integer.parseInt(shippingMethod);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody/tr["+ i +"]/td/input"))).click();
+        String price = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody/tr["+ i +"]/td[2]/span"))).getText().replace("$","");
+        ShareData.setShippingMethodsPrice(price);
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody/tr["+ i +"]/td[2]/span"))).getText().replace("$","");
+    }
+
+    public String shoppingMethodsText(String shippingMethod) {
+        int i = Integer.parseInt(shippingMethod);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody/tr["+ i +"]/td/input"))).click();
+        String text1 = wait.until(ExpectedConditions.visibilityOfElementLocated(shippingMethodsFirstTextLocator)).getText();
+        String text2 = wait.until(ExpectedConditions.visibilityOfElementLocated(shippingMethodsSecondTextLocator)).getText();
+        String fullText = text2 + " - " + text1;
+        ShareData.setShippingMethodsText(fullText);
+        return text2 + " - " + text1;
     }
 
     public void scrollToShippingMethods() {
