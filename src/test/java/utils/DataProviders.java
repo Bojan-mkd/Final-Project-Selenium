@@ -46,7 +46,7 @@ public class DataProviders {
     @DataProvider(name = "informationForShippingAddress")
     public String[][] informationForShippingAddress() {
         String[][] informationForShippingAddress = {
-                {"bm@example.com", "b", "m", "Qinshift", "Address1", "Address2", "Address3", "Buffalo", "New York", "14201", "United States", "1234-567"}};
+                {"bm@example.com", "b", "m", "Qinshift", "Address1", "Address2", "Address3", "Buffalo", "New York", "14201", "United States", "1234-567", "2"}};
         return informationForShippingAddress;
     }
 }
