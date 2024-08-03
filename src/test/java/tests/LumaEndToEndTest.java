@@ -7,7 +7,7 @@ import org.testng.asserts.SoftAssert;
 import pages.*;
 import utils.*;
 
-public class LumaEndToEndTest extends BaseClassWithClass {
+public class LumaEndToEndTest extends BaseClassBeforeAndAfterClass {
 
     @Test(priority = 10, dataProvider = "userInformation", dataProviderClass = DataProviders.class)
     public void createAccount_registrationSuccess(String firstName, String lastName, String password) throws InterruptedException {
