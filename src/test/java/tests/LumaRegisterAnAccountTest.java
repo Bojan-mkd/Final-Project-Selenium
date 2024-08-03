@@ -7,11 +7,9 @@ import org.testng.asserts.SoftAssert;
 import pages.LumaAccountPage;
 import pages.LumaCreateAccountPage;
 import pages.LumaHomePage;
-import utils.BaseClass;
-import utils.DataProviders;
-import utils.NavigationHelper;
+import utils.*;
 
-public class LumaRegisterAnAccountTest extends BaseClass {
+public class LumaRegisterAnAccountTest extends BaseClassBeforeAndAfterMethod {
     //With this test we are testing presents and visibility of webelements
     @Test(priority = 10)
     public void createAccount_elementVisibility() {
@@ -39,10 +37,23 @@ public class LumaRegisterAnAccountTest extends BaseClass {
     @Test(priority = 60, dataProvider = "userInformation", dataProviderClass = DataProviders.class)
     public void createAccount_registrationSuccess(String firstName, String lastName, String password) throws InterruptedException {
         LumaAccountPage accountPage = new LumaAccountPage(driver, wait);
-        NavigationHelper.registerAnAccount(driver, action, wait, firstName, lastName, password);
+        ProxyEmailProvider userEmail = new ProxyEmailProvider(driver);
+        LumaHomePage homePage = new LumaHomePage(driver, action);
+        LumaCreateAccountPage creatingUser = new LumaCreateAccountPage(driver, wait, action);
+        String originalWindow = driver.getWindowHandle();
+        String proxyEmail = userEmail.userProxyEmail();
+        ShareData.setProxyEmailStoring(proxyEmail);
+        driver.switchTo().window(originalWindow);
+        homePage.createAccountButton();
+        creatingUser.scrollToCreateAccaountButton();
+        creatingUser.firstName(firstName);
+        creatingUser.lastName(lastName);
+        creatingUser.email(proxyEmail);
+        creatingUser.password(password);
+        creatingUser.confirmPassword(password);
+        creatingUser.createAccountButton();
         Assert.assertEquals(accountPage.confirmationMessageForSuccessfulRegistration(), "Thank you for registering with Main Website Store.");
         Assert.assertEquals(accountPage.accountPageTitle(), "My Account");
-
     }
 
     @Test(priority = 20, dataProvider = "userInformationError", dataProviderClass = DataProviders.class)
@@ -114,7 +125,16 @@ public class LumaRegisterAnAccountTest extends BaseClass {
     @Test(dependsOnMethods = "createAccount_registrationSuccess", dataProvider = "userInformation", dataProviderClass = DataProviders.class)
     public void createAccount_checkingForExistingAccount(String firstName, String lastName, String password) throws InterruptedException {
         LumaCreateAccountPage accountPage = new LumaCreateAccountPage(driver, wait, action);
-        NavigationHelper.registerAnAccount(driver, action, wait, firstName, lastName, password);
+        LumaHomePage homePage = new LumaHomePage(driver, action);
+        LumaCreateAccountPage creatingUser = new LumaCreateAccountPage(driver, wait, action);
+        homePage.createAccountButton();
+        creatingUser.scrollToCreateAccaountButton();
+        creatingUser.firstName(firstName);
+        creatingUser.lastName(lastName);
+        creatingUser.email(ShareData.getProxyEmailStoring());
+        creatingUser.password(password);
+        creatingUser.confirmPassword(password);
+        creatingUser.createAccountButton();
         Assert.assertEquals(accountPage.errorMessageForExistingAccount(), "There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.");
     }
 }
