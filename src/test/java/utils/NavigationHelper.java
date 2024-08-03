@@ -13,6 +13,7 @@ public class NavigationHelper {
         LumaCreateAccountPage creatingUser = new LumaCreateAccountPage(driver, wait, action);
         String originalWindow = driver.getWindowHandle();
         String proxyEmail = userEmail.userProxyEmail();
+        ShareData.setProxyEmailStoring(proxyEmail);
         driver.switchTo().window(originalWindow);
         homePage.createAccountButton();
         creatingUser.scrollToCreateAccaountButton();
@@ -21,6 +22,6 @@ public class NavigationHelper {
         creatingUser.email(proxyEmail);
         creatingUser.password(password);
         creatingUser.confirmPassword(password);
-//        creatingUser.createAccountButton();
+        creatingUser.createAccountButton();
     }
 }
