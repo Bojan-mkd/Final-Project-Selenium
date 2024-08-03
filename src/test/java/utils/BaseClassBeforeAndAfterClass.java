@@ -10,7 +10,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 
-public class BaseClassWithClass {
+public class BaseClassBeforeAndAfterClass {
     protected WebDriver driver;
     protected WebDriverWait wait;
     protected Actions action;
