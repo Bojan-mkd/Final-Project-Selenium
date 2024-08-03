@@ -6,11 +6,11 @@ import pages.LumaCheckoutPage;
 import pages.LumaHomePage;
 import pages.LumaProductsCatalogPage;
 import pages.LumaSingleProductPage;
-import utils.BaseClass;
+import utils.BaseClassBeforeAndAfterMethod;
 import utils.DataProviders;
 import utils.ShareData;
 
-public class LumaAddAndCheckoutProductsToShoppingCartTest extends BaseClass {
+public class LumaAddAndCheckoutProductsToShoppingCartTest extends BaseClassBeforeAndAfterMethod {
 
     @Test(dataProvider = "informationForTwoProducts", dataProviderClass = DataProviders.class)
     public void addAndCheckoutProductInShoppingCartByClickingItems(String sizeNumber1, String sizeNumber2, String color1, String color2, String productNameOne, String productNameTwo) throws InterruptedException {
