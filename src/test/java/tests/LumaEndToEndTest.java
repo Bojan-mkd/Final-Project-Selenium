@@ -59,7 +59,7 @@ public class LumaEndToEndTest extends BaseClassBeforeAndAfterClass {
 
     @Test(priority = 30, dependsOnMethods = "addAndCheckoutProductInShoppingCartByClickingItems", dataProvider = "informationForShippingAddress", dataProviderClass = DataProviders.class)
     public void checkoutPage(String email, String firstName, String lastName, String company, String address1, String address2, String address3, String city, String state, String zipCode, String country, String phoneNumber, String shippingMethod) throws InterruptedException {
-        ShareData.setCheckoutPageArg(email, firstName, lastName, address1, address2, address3, city, state, zipCode, country, phoneNumber, shippingMethod);
+        ShareData.setCheckoutPageArg(firstName, lastName, address1, address2, address3, city, state, zipCode, country, phoneNumber, shippingMethod);
         LumaCheckoutPage checkoutPage = new LumaCheckoutPage(driver, wait, action);
         softAssert = new SoftAssert();
         String productNameOne = ShareData.getShareProductNameOne();
@@ -76,9 +76,6 @@ public class LumaEndToEndTest extends BaseClassBeforeAndAfterClass {
         softAssert.assertTrue(checkoutPage.productsInOrderSummary(productNameTwo).contains(ShareData.getShareColor2()));
         softAssert.assertTrue(checkoutPage.productsInOrderSummary(productNameTwo).contains(ShareData.getSharePriceOfProductChosenFromCatalog()));
         checkoutPage.scrollToShippingMethods();
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='customer-email']"))).sendKeys(email);
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='firstname']"))).sendKeys(firstName);
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@name='lastname']"))).sendKeys(lastName);
         checkoutPage.companyName(company);
         checkoutPage.streetAddressOne(address1);
         checkoutPage.streetAddressTwo(address2);
@@ -103,7 +100,7 @@ public class LumaEndToEndTest extends BaseClassBeforeAndAfterClass {
         softAssert.assertEquals(reviewAndPaymentsPage.assertReviewAndPaymentsPage(),"");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='billing-address-details']")));
         //Asserting/Checking Check-Money order information
-        softAssert.assertEquals(reviewAndPaymentsPage.checkOrder(), ShareData.getShareFirstName() + " " + ShareData.getShareLastName() + "\n" +
+        softAssert.assertEquals(reviewAndPaymentsPage.checkOrder(), ShareData.getShareRegisterFirstName() + " " + ShareData.getShareRegisterLastName() + "\n" +
                 ShareData.getShareAddress1() + ", " + ShareData.getShareAddress2() + ", " + ShareData.getShareAddress3() + "\n" +
                 ShareData.getShareCity() + ", " + ShareData.getShareState() + " " + ShareData.getShareZipCode() + "\n" +
                 ShareData.getShareCountry() + "\n" +
@@ -124,7 +121,7 @@ public class LumaEndToEndTest extends BaseClassBeforeAndAfterClass {
         softAssert.assertTrue(checkoutPage.productsInOrderSummary(productNameTwo).contains(ShareData.getSharePriceOfProductChosenFromCatalog()));
         reviewAndPaymentsPage.scrollToShipVia();
         //Asserting/Checking Ship To
-        softAssert.assertEquals(reviewAndPaymentsPage.shipTo(), ShareData.getShareFirstName() + " " + ShareData.getShareLastName() + "\n" +
+        softAssert.assertEquals(reviewAndPaymentsPage.shipTo(), ShareData.getShareRegisterFirstName() + " " + ShareData.getShareRegisterLastName() + "\n" +
                 ShareData.getShareAddress1() + ", " + ShareData.getShareAddress2() + ", " + ShareData.getShareAddress3() + "\n" +
                 ShareData.getShareCity() + ", " + ShareData.getShareState() + " " + ShareData.getShareZipCode() + "\n" +
                 ShareData.getShareCountry() + "\n" +
