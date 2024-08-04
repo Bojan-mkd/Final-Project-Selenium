@@ -16,7 +16,7 @@ public class LumaCheckoutPage {
     WebDriverWait wait;
     Actions action;
     Select s;
-    private By assertingCheckoutPageLocator = By.xpath("//div[contains(@data-bind,'Shipping Address')]");
+    private By assertingCheckoutPageLocator = By.xpath("//span[text()='Shipping']");
     private By assertingPresentsOfProductsLocator = By.xpath("//span[text()='Order Summary']");
     private By productsListLocator = By.xpath("//div[@class='block items-in-cart']");
     private By productsListDropDownLocator = By.xpath("//ol[@class='minicart-items']/li");
@@ -120,11 +120,9 @@ public class LumaCheckoutPage {
 
     public String shoppingMethodsText(String shippingMethod) {
         int i = Integer.parseInt(shippingMethod);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody/tr["+ i +"]/td/input"))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody/tr["+ i +"]/td/input")));
         String text1 = wait.until(ExpectedConditions.visibilityOfElementLocated(shippingMethodsFirstTextLocator)).getText();
         String text2 = wait.until(ExpectedConditions.visibilityOfElementLocated(shippingMethodsSecondTextLocator)).getText();
-        String fullText = text2 + " - " + text1;
-        ShareData.setShippingMethodsText(fullText);
         return text2 + " - " + text1;
     }
 
@@ -138,13 +136,5 @@ public class LumaCheckoutPage {
 
     public void nextButtonClick() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(nextButtonLocator)).click();
-    }
-
-    public void getFirstName(){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(firstNameLocator)).getText();
-    }
-
-    public void getLastName(){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(lastNameLocator)).getText();
     }
 }
