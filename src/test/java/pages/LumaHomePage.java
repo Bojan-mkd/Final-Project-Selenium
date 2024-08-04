@@ -10,7 +10,6 @@ public class LumaHomePage {
     private By createAccountLocator = By.xpath("//div[@class='panel header']/./ul/li[3]/a");
     private By womenCategoryButtonLocator = By.xpath("//span[text() = 'Women']");
     private By choosingPantsCategoryLocator = By.xpath("//a[text() = 'Pants']");
-    private By menCategoryButtonLocator = By.xpath("//span[text() = 'Men']");
     private By choosingWomensPantsCategoryLocator = By.xpath("//a[@id='ui-id-15']");
     private By womenBottomCategoryLocator = By.xpath("//a[@id='ui-id-10']");
 
