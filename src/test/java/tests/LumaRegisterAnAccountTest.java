@@ -44,7 +44,7 @@ public class LumaRegisterAnAccountTest extends BaseClassBeforeAndAfterMethod {
     }
 
     @Test(priority = 20, dataProvider = "userInformationError", dataProviderClass = DataProviders.class)
-    public void createAccount_registrationError(String firstName, String lastName, String email, String password, String confirmPassword) {
+    public void createAccount_registrationError(String firstName, String lastName, String email, String password) {
         LumaHomePage homePage = new LumaHomePage(driver, action);
         LumaCreateAccountPage creatingUser = new LumaCreateAccountPage(driver, wait, action);
         SoftAssert softAssert = new SoftAssert();
@@ -54,7 +54,7 @@ public class LumaRegisterAnAccountTest extends BaseClassBeforeAndAfterMethod {
         creatingUser.lastName(lastName);
         creatingUser.email(email);
         creatingUser.password(password);
-        creatingUser.confirmPassword(confirmPassword);
+        creatingUser.confirmPassword(password);
         creatingUser.createAccountButton();
         softAssert.assertEquals(creatingUser.errorMessageForRequiredField(), "This is a required field.");
         softAssert.assertAll();
@@ -120,7 +120,7 @@ public class LumaRegisterAnAccountTest extends BaseClassBeforeAndAfterMethod {
         creatingUser.email(ShareData.getProxyEmailStoring());
         creatingUser.password(password);
         creatingUser.confirmPassword(password);
-//        creatingUser.createAccountButton();
+        creatingUser.createAccountButton();
         Assert.assertEquals(accountPage.errorMessageForExistingAccount(), "There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.");
     }
 }
