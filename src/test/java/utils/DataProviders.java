@@ -14,16 +14,14 @@ public class DataProviders {
     @DataProvider(name = "userInformationError")
     public String[][] userInformationError(){
         String[][] userInformation = {
-                {"" , "lastname1", "email1@domain.com", "Passw0rd", "Passw0rd"},
-                {"name2", "", "email2@domain.com", "Passw0rd", "Passw0rd"},
-                {"name3", "lastname3", "", "Passw0rd", "Passw0rd"},
-                {"name4", "lastname4", "email4@domain.com", "", "Passw0rd"},
-                {"name5", "lastname5", "email5@domain.com", "Passw0rd", ""},
-                {" ", "lastname6", "email6@domain.com", "Passw0rd", "Passw0rd"},
-                {"name7", " ", "email7@domain.com", "Passw0rd", "Passw0rd"},
-                {"name8", "lastname8", " ", "Passw0rd", "Passw0rd"},
-                {"name9", "lastname9", "email9@domain.com", " ", "Passw0rd"},
-                {"name10", "lastname10", "email9@domain.com", "Passw0rd", " "}};
+                {"" , "lastname1", "email1@domain.com", "Passw0rd"},
+                {"name2", "", "email2@domain.com", "Passw0rd"},
+                {"name3", "lastname3", "", "Passw0rd"},
+                {"name4", "lastname4", "email4@domain.com", ""},
+                {" ", "lastname5", "email5@domain.com", "Passw0rd"},
+                {"name6", " ", "email6@domain.com", "Passw0rd"},
+                {"name7", "lastname7", " ", "Passw0rd"},
+                {"name8", "lastname8", "email8@domain.com", " "}};
         return userInformation;
     }
 
