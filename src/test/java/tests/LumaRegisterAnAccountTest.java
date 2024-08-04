@@ -37,27 +37,14 @@ public class LumaRegisterAnAccountTest extends BaseClassBeforeAndAfterMethod {
     @Test(priority = 60, dataProvider = "userInformation", dataProviderClass = DataProviders.class)
     public void createAccount_registrationSuccess(String firstName, String lastName, String password) throws InterruptedException {
         LumaAccountPage accountPage = new LumaAccountPage(driver, wait);
-        ProxyEmailProvider userEmail = new ProxyEmailProvider(driver);
-        LumaHomePage homePage = new LumaHomePage(driver, action);
-        LumaCreateAccountPage creatingUser = new LumaCreateAccountPage(driver, wait, action);
-        String originalWindow = driver.getWindowHandle();
-        String proxyEmail = userEmail.userProxyEmail();
-        ShareData.setProxyEmailStoring(proxyEmail);
-        driver.switchTo().window(originalWindow);
-        homePage.createAccountButton();
-        creatingUser.scrollToCreateAccaountButton();
-        creatingUser.firstName(firstName);
-        creatingUser.lastName(lastName);
-        creatingUser.email(proxyEmail);
-        creatingUser.password(password);
-        creatingUser.confirmPassword(password);
-        creatingUser.createAccountButton();
+        NavigationHelper.registerAnAccount(driver, action, wait, firstName, lastName, password);
         Assert.assertEquals(accountPage.confirmationMessageForSuccessfulRegistration(), "Thank you for registering with Main Website Store.");
         Assert.assertEquals(accountPage.accountPageTitle(), "My Account");
+        accountPage.signingOutUserButton();
     }
 
     @Test(priority = 20, dataProvider = "userInformationError", dataProviderClass = DataProviders.class)
-    public void createAccount_registrationError(String firstName, String lastName, String email, String password) {
+    public void createAccount_registrationError(String firstName, String lastName, String email, String password, String confirmPassword) {
         LumaHomePage homePage = new LumaHomePage(driver, action);
         LumaCreateAccountPage creatingUser = new LumaCreateAccountPage(driver, wait, action);
         SoftAssert softAssert = new SoftAssert();
@@ -67,10 +54,9 @@ public class LumaRegisterAnAccountTest extends BaseClassBeforeAndAfterMethod {
         creatingUser.lastName(lastName);
         creatingUser.email(email);
         creatingUser.password(password);
-        creatingUser.confirmPassword(password);
+        creatingUser.confirmPassword(confirmPassword);
         creatingUser.createAccountButton();
-        String errorMessageLocator = driver.findElement(By.xpath("//div[@class='mage-error']")).getText();
-        softAssert.assertEquals(errorMessageLocator, "This is a required field.");
+        softAssert.assertEquals(creatingUser.errorMessageForRequiredField(), "This is a required field.");
         softAssert.assertAll();
     }
 
@@ -123,7 +109,7 @@ public class LumaRegisterAnAccountTest extends BaseClassBeforeAndAfterMethod {
     }
 
     @Test(dependsOnMethods = "createAccount_registrationSuccess", dataProvider = "userInformation", dataProviderClass = DataProviders.class)
-    public void createAccount_checkingForExistingAccount(String firstName, String lastName, String password) throws InterruptedException {
+    public void createAccount_checkingForExistingAccount(String firstName, String lastName, String password) {
         LumaCreateAccountPage accountPage = new LumaCreateAccountPage(driver, wait, action);
         LumaHomePage homePage = new LumaHomePage(driver, action);
         LumaCreateAccountPage creatingUser = new LumaCreateAccountPage(driver, wait, action);
@@ -134,7 +120,7 @@ public class LumaRegisterAnAccountTest extends BaseClassBeforeAndAfterMethod {
         creatingUser.email(ShareData.getProxyEmailStoring());
         creatingUser.password(password);
         creatingUser.confirmPassword(password);
-        creatingUser.createAccountButton();
+//        creatingUser.createAccountButton();
         Assert.assertEquals(accountPage.errorMessageForExistingAccount(), "There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.");
     }
 }
