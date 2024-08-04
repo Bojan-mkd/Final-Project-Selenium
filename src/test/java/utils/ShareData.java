@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 public class ShareData {
-    public static String shareEmail;
     public static String shareFirstName;
     public static String shareLastName;
     public static String shareAddress1;
@@ -30,10 +29,11 @@ public class ShareData {
     public static String shareShippingMethodsPrice;
     public static String shareShippingMethodsText;
 
+    public static String shareRegisterFirstName;
+    public static String shareRegisterLastName;
     public static String shareProxyEmail;
 
-    public static void setCheckoutPageArg(String email, String firstName, String lastName, String address1, String address2, String address3, String city, String state, String zipCode, String country, String phoneNumber, String shippingMethod) {
-        shareEmail = email;
+    public static void setCheckoutPageArg(String firstName, String lastName, String address1, String address2, String address3, String city, String state, String zipCode, String country, String phoneNumber, String shippingMethod) {
         shareFirstName = firstName;
         shareLastName = lastName;
         shareAddress1 = address1;
@@ -45,10 +45,6 @@ public class ShareData {
         shareCountry = country;
         sharePhoneNumber = phoneNumber;
         shareShippingMethod = shippingMethod;
-    }
-
-    public static String getShareEmail() {
-        return shareEmail;
     }
 
     public static String getShareFirstName() {
@@ -192,6 +188,19 @@ public class ShareData {
 
     public static String getProxyEmailStoring() {
         return shareProxyEmail;
+    }
+
+    public static void setRegisterFirstNameAndLastName(String firstName, String lastName){
+        shareRegisterFirstName = firstName;
+        shareRegisterLastName = lastName;
+    }
+
+    public static String getShareRegisterFirstName() {
+        return shareRegisterFirstName;
+    }
+
+    public static String getShareRegisterLastName() {
+        return shareRegisterLastName;
     }
 
 
