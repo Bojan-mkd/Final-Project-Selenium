@@ -25,6 +25,7 @@ public class LumaCreateAccountPage {
     private By passwordTextLocator = By.xpath("//label[@for='password']");
     private By confirmPasswordTextLocator = By.xpath("//label[@for='password-confirmation']");
     private By errorMessageForExistingAccountLocator = By.xpath("//div[@data-ui-id='message-error']");
+    private By errorMessageForRequiredFieldLocator = By.xpath("//div[@class='mage-error']");
 
     public LumaCreateAccountPage(WebDriver driver, WebDriverWait wait, Actions action) {
         this.driver = driver;
@@ -118,5 +119,9 @@ public class LumaCreateAccountPage {
 
     public String errorMessageForExistingAccount() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageForExistingAccountLocator)).getText();
+    }
+
+    public String errorMessageForRequiredField() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageForRequiredFieldLocator)).getText();
     }
 }
