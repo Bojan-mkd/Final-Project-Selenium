@@ -17,7 +17,6 @@ public class ProxyEmailProvider {
         driver.navigate().to(url);
         Thread.sleep(2000);
         String email = driver.findElement(By.xpath("//input[@data-test-id='emailAddress']")).getAttribute("value");
-        System.out.println(email);
         return email;
     }
 }
