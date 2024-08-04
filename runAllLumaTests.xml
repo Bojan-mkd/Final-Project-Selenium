@@ -5,6 +5,7 @@
             <class name="tests.LumaRegisterAnAccountTest"/>
             <class name="tests.LumaAddAndCheckoutProductsToShoppingCartTest"/>
             <class name="tests.LumaEndToEndTest"/>
+            <class name="tests.LumaEndToEndTestWIthOutLogIn" />
         </classes>
     </test>
 </suite>
