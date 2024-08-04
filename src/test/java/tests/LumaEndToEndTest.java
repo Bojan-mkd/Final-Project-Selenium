@@ -58,7 +58,7 @@ public class LumaEndToEndTest extends BaseClassBeforeAndAfterClass {
     }
 
     @Test(priority = 30, dependsOnMethods = "addAndCheckoutProductInShoppingCartByClickingItems", dataProvider = "informationForShippingAddress", dataProviderClass = DataProviders.class)
-    public void checkoutPage(String email, String firstName, String lastName, String company, String address1, String address2, String address3, String city, String state, String zipCode, String country, String phoneNumber, String shippingMethod) throws InterruptedException {
+    public void checkoutPage(String firstName, String lastName, String company, String address1, String address2, String address3, String city, String state, String zipCode, String country, String phoneNumber, String shippingMethod) throws InterruptedException {
         ShareData.setCheckoutPageArg(firstName, lastName, address1, address2, address3, city, state, zipCode, country, phoneNumber, shippingMethod);
         LumaCheckoutPage checkoutPage = new LumaCheckoutPage(driver, wait, action);
         softAssert = new SoftAssert();
