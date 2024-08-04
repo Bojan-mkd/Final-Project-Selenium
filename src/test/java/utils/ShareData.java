@@ -158,6 +158,16 @@ public class ShareData {
         return decimalFormat.format(totalSum);
     }
 
+    public static String orderTotalSumOfProductsAndShippingMethod(String num1, String num2, String shippingMethod){
+        double n1 = Double.parseDouble(num1);
+        double n2 = Double.parseDouble(num2);
+        double n3 = Double.parseDouble(shippingMethod);
+        double totalSum = n1 + n2 + n3;
+        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        DecimalFormat decimalFormat = new DecimalFormat("#.00", decimalFormatSymbols);
+        return decimalFormat.format(totalSum);
+    }
     //Storing shipping methods price
     public static void setShippingMethodsPrice(String price) {
         shareShippingMethodsPrice = price;
